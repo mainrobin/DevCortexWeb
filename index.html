@@ -1,94 +1,1199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevCortex | Agentic Development Control Centre</title>
-    <style>
-        :root {
-            --dark-blue: #0f172a;
-            --text-gray: #64748b;
-            --accent-blue: #3b82f6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevCortex — Agentic Development Platform</title>
+<meta name="description" content="Precision context engineering for AI-driven software development. The structured intelligence layer between your team and your AI agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            color: var(--dark-blue);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
+<style>
+:root {
+  --ink:       #0d1117;
+  --ink-mid:   #1c2333;
+  --ink-soft:  #30363d;
+  --rule:      #21262d;
+  --mist:      #8b949e;
+  --paper:     #f0f2f5;
+  --paper-dim: #e6e9ed;
+  --blue:      #1a6cf0;
+  --blue-dim:  #0f4fa8;
+  --blue-glow: rgba(26, 108, 240, 0.12);
+  --accent:    #00d4aa;
+  --accent-dim:rgba(0,212,170,0.15);
+  --white:     #ffffff;
+  --serif:     'DM Serif Display', Georgia, serif;
+  --sans:      'Instrument Sans', system-ui, sans-serif;
+  --mono:      'DM Mono', 'Courier New', monospace;
+}
 
-        .container {
-            max-width: 600px;
-            padding: 20px;
-            animation: fadeIn 1.2s ease-out;
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .logo {
-            max-width: 280px;
-            height: auto;
-            margin-bottom: 2rem;
-        }
+html { scroll-behavior: smooth; }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-        p {
-            font-size: 1.2rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
+/* ── GRID NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-        .status-badge {
-            display: inline-block;
-            background: #f1f5f9;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+/* ── GLOWING ORB ── */
+.bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(26,108,240,0.18) 0%, transparent 70%);
+  top: -200px; right: -200px;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0,212,170,0.1) 0%, transparent 70%);
+  bottom: 10%; left: -150px;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* ── LAYOUT ── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
 
-        footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-    </style>
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+nav.scrolled {
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--rule);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 28px; height: 28px;
+  background: var(--blue);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+  letter-spacing: -0.5px;
+}
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid rgba(0,212,170,0.3);
+  padding: 7px 18px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.nav-cta:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 80px;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 80px;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--accent);
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(44px, 5.5vw, 70px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--blue);
+}
+.hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--mist);
+  max-width: 520px;
+  margin-bottom: 44px;
+  font-weight: 400;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  background: var(--blue);
+  border: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover {
+  background: var(--blue-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(26,108,240,0.3);
+}
+.btn-ghost {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--mist);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--white); }
+
+/* ── HERO TERMINAL CARD ── */
+.hero-terminal {
+  background: var(--ink-mid);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.terminal-bar {
+  background: var(--ink-soft);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.t-dot { width: 10px; height: 10px; border-radius: 50%; }
+.t-red   { background: #ff5f57; }
+.t-yel   { background: #febc2e; }
+.t-grn   { background: #28c840; }
+.terminal-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mist);
+  margin-left: 8px;
+  letter-spacing: 0.05em;
+}
+.terminal-body {
+  padding: 24px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.9;
+}
+.t-comment { color: #484f58; }
+.t-cmd     { color: var(--accent); }
+.t-path    { color: var(--blue); }
+.t-str     { color: #e3b341; }
+.t-ok      { color: #3fb950; }
+.t-dim     { color: var(--mist); }
+.t-white   { color: var(--white); }
+.t-cursor {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--accent);
+  animation: blink 1.1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── DIVIDER ── */
+.section-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* ── QUOTE BAND ── */
+.quote-band {
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+.quote-band::before {
+  content: '\201C';
+  position: absolute;
+  top: -20px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--serif);
+  font-size: 320px;
+  color: rgba(26,108,240,0.06);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.quote-inner {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.quote-text {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.45;
+  color: var(--white);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+.quote-text span { color: var(--blue); font-style: normal; }
+.quote-source {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mist);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── SECTION ── */
+section {
+  padding: 96px 0;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--accent);
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.section-title em { color: var(--blue); font-style: italic; }
+.section-body {
+  font-size: 16px;
+  color: var(--mist);
+  max-width: 560px;
+  line-height: 1.75;
+}
+
+/* ── PROBLEM METRICS ── */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 60px;
+}
+.metric-cell {
+  background: var(--ink-mid);
+  padding: 36px 32px;
+  position: relative;
+}
+.metric-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 32px; right: 32px;
+  height: 2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.metric-cell:hover::after { transform: scaleX(1); }
+.metric-num {
+  font-family: var(--serif);
+  font-size: 52px;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.metric-num span { color: var(--blue); }
+.metric-label {
+  font-size: 13px;
+  color: var(--mist);
+  line-height: 1.5;
+}
+.metric-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── FEATURE TILES ── */
+.features-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.feature-tile {
+  background: var(--ink-mid);
+  padding: 32px 28px;
+  position: relative;
+  transition: background 0.25s ease;
+  cursor: default;
+}
+.feature-tile:hover {
+  background: rgba(26,108,240,0.07);
+}
+.tile-icon {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  background: var(--blue-glow);
+  border: 1px solid rgba(26,108,240,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+  transition: all 0.25s;
+}
+.feature-tile:hover .tile-icon {
+  background: rgba(26,108,240,0.2);
+  border-color: rgba(26,108,240,0.5);
+}
+.tile-title {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.tile-body {
+  font-size: 13px;
+  color: var(--mist);
+  line-height: 1.65;
+}
+.tile-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-radius: 3px;
+  padding: 2px 7px;
+  margin-top: 14px;
+}
+
+/* ── SECOND QUOTE ── */
+.quote-inline {
+  padding: 60px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 80px 0;
+}
+.quote-inline-inner {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  gap: 28px;
+  max-width: 740px;
+}
+.quote-bar {
+  background: linear-gradient(to bottom, var(--blue), var(--accent));
+  border-radius: 2px;
+}
+.qi-text {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--white);
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.qi-source {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--mist);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── HOW IT WORKS ── */
+.how-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-top: 56px;
+}
+.how-steps { display: flex; flex-direction: column; gap: 0; }
+.how-step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  transition: all 0.2s;
+}
+.how-step:last-child { border-bottom: none; }
+.how-step:hover .step-num { background: var(--blue); color: var(--white); }
+.step-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--mist);
+  transition: all 0.2s;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.step-body {
+  font-size: 13.5px;
+  color: var(--mist);
+  line-height: 1.65;
+}
+
+.how-visual {
+  background: var(--ink-mid);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 16px 64px rgba(0,0,0,0.4);
+}
+.mcp-diagram {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 2;
+}
+.mcp-title {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.mcp-agent {
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.mcp-arrow { color: var(--ink-soft); padding: 0 8px; }
+.mcp-server { color: var(--blue); }
+.mcp-db { color: #e3b341; }
+.mcp-req-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--rule);
+  font-size: 11px;
+  transition: background 0.2s;
+}
+.mcp-req-item:hover { background: var(--blue-glow); }
+.req-id { color: var(--blue); font-weight: 500; }
+.req-status {
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+.status-done { background: rgba(0,212,170,0.15); color: var(--accent); }
+.status-prog { background: rgba(26,108,240,0.15); color: #79b8ff; }
+.status-open { background: rgba(139,148,158,0.15); color: var(--mist); }
+
+/* ── COMPARISON TABLE ── */
+.compare-wrap { margin-top: 56px; overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead th {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist);
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  background: rgba(255,255,255,0.02);
+}
+thead th:first-child { color: var(--mist); }
+thead th.th-dc {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+tbody tr { border-bottom: 1px solid var(--rule); transition: background 0.15s; }
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+tbody tr:last-child { border-bottom: none; }
+tbody td {
+  padding: 13px 20px;
+  color: var(--mist);
+  vertical-align: middle;
+  font-size: 13px;
+}
+tbody td:first-child { color: var(--white); font-size: 13px; }
+.td-dc { background: rgba(26,108,240,0.04); }
+.check { color: var(--accent); font-size: 15px; }
+.cross { color: #484f58; font-size: 15px; }
+.part  { color: #e3b341; font-size: 15px; }
+
+/* ── FOOTER CTA ── */
+.footer-cta {
+  padding: 100px 0 80px;
+  text-align: center;
+  position: relative;
+}
+.footer-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--rule));
+}
+.cta-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mist);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.cta-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.cta-title em { color: var(--blue); font-style: italic; }
+.cta-sub {
+  font-size: 16px;
+  color: var(--mist);
+  margin-bottom: 44px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-domain {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--mist);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  letter-spacing: 0.05em;
+}
+.cta-domain span { color: var(--blue); }
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding: 28px 0;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+.footer-inner a { color: var(--mist); text-decoration: none; transition: color 0.2s; }
+.footer-inner a:hover { color: var(--white); }
+
+/* ── ANIMATIONS ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-terminal { display: none; }
+  .features-header { grid-template-columns: 1fr; gap: 24px; }
+  .feature-grid { grid-template-columns: 1fr 1fr; }
+  .how-grid { grid-template-columns: 1fr; gap: 48px; }
+  .metrics-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 38px; }
+  .nav-cta { display: none; }
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="DCLogo1.png" alt="DevCortex Logo" class="logo">
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
 
-        <h1>Coming Soon</h1>
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">dc</div>
+      DevCortex
+    </a>
+    <a href="#notify" class="nav-cta">Request Early Access</a>
+  </div>
+</nav>
 
-        <div style="margin-top: 30px;">
-            <small>Stay tuned for updates at <strong>www.devcortexai.com</strong></small>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Agentic Development Platform</div>
+        <h1 class="hero-title">
+          The structured<br>
+          intelligence layer<br>
+          for <em>AI-driven</em><br>
+          development
+        </h1>
+        <p class="hero-sub">
+          DevCortex gives your AI agents the right context at the right moment —
+          a precision MCP server that replaces chaotic vibe coding with
+          spec-driven, traceable, production-quality delivery.
+        </p>
+        <div class="hero-actions">
+          <a href="#notify" class="btn-primary">
+            Get Early Access
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#features" class="btn-ghost">
+            See how it works
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+          </a>
         </div>
+      </div>
+
+      <!-- TERMINAL CARD -->
+      <div class="hero-terminal">
+        <div class="terminal-bar">
+          <div class="t-dot t-red"></div>
+          <div class="t-dot t-yel"></div>
+          <div class="t-dot t-grn"></div>
+          <span class="terminal-label">dcx — MCP context session</span>
+        </div>
+        <div class="terminal-body">
+          <div class="t-comment"># Initialize DevCortex MCP</div>
+          <div><span class="t-cmd">$</span> <span class="t-white">dcx init</span></div>
+          <div class="t-ok">✔ Connected to acme-org/AcmeERP Project</div>
+          <div class="t-ok">✔ MCP server active on :3001/mcp</div>
+          <br>
+          <div class="t-comment"># Agent fetches REQ-042 on demand</div>
+          <div><span class="t-path">tool:</span> <span class="t-white">get_requirement</span>(<span class="t-str">"REQ-042"</span>)</div>
+          <div class="t-dim">→ title: "NextAuth.js HTTP-Only Cookies"</div>
+          <div class="t-dim">→ status: IN_PROGRESS</div>
+          <div class="t-dim">→ acceptance_criteria: [5 items]</div>
+          <div class="t-dim">→ open_issues: 1</div>
+          <br>
+          <div class="t-comment"># Only relevant context loaded</div>
+          <div class="t-dim">tokens used: <span class="t-ok">312</span> / 200k</div>
+          <div class="t-dim">signal ratio: <span class="t-ok">high</span></div>
+          <br>
+          <span class="t-cmd">$</span> <span class="t-cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- QUOTE 1 -->
+<div class="quote-band">
+  <div class="container">
+    <div class="quote-inner fade-up">
+      <p class="quote-text">
+        "The smallest possible set of <span>high-signal tokens</span> that
+        maximize the likelihood of some desired outcome."
+      </p>
+      <div class="quote-source">Anthropic Applied AI Team &nbsp;·&nbsp; Effective Context Engineering for AI Agents &nbsp;·&nbsp; Sep 29, 2025</div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- THE PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title fade-up">Context rot is <em>killing</em><br>your agentic projects</h2>
+    <p class="section-body fade-up">
+      Vibe coding feels productive — until it doesn't. As chat sessions grow, AI agents
+      spend their finite attention on stale history, repeated context, and noise.
+      The result is the fix-it loop: fix, break, fix, break.
+    </p>
+
+    <div class="metrics-row fade-up">
+      <div class="metric-cell">
+        <div class="metric-num">30<span>%</span></div>
+        <div class="metric-label">Drop in task accuracy when full chat history replaces focused context</div>
+        <div class="metric-sub">Chroma Research · Context Rot · 2025</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">18</div>
+        <div class="metric-label">Leading LLMs tested — every single one degrades with longer context</div>
+        <div class="metric-sub">Incl. GPT-4.1, Claude 4, Gemini 2.5, Qwen3</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">n<span>²</span></div>
+        <div class="metric-label">Attention complexity. Every token competes with every other token</div>
+        <div class="metric-sub">Transformer architecture constraint</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="features-header">
+      <div>
+        <div class="section-label">End-to-End Platform</div>
+        <h2 class="section-title fade-up">One platform.<br><em>Every</em> lifecycle stage.</h2>
+      </div>
+      <p class="section-body fade-up" style="align-self:end; margin-bottom:4px;">
+        DevCortex integrates specification, requirements, issues, and traceability into a single
+        queryable database — delivered to your AI agent on demand via MCP.
+        No more context gaps between disconnected tools.
+      </p>
     </div>
 
-    <footer>
-        &copy; 2026 DevCortex. All rights reserved.
-    </footer>
+    <div class="feature-grid fade-up">
+
+      <div class="feature-tile">
+        <div class="tile-icon">📋</div>
+        <div class="tile-title">Specification Management</div>
+        <div class="tile-body">Versioned specification documents with full edit and release history. Your agent always knows which spec is authoritative for the current sprint.</div>
+        <div class="tile-tag">Spec versioning</div>
+      </div>
+
+      <div class="feature-tile">
+        <div class="tile-icon">✅</div>
+        <div class="tile-title">Requirements Tracking</div>
+        <div class="tile-body">Structured requirements with MoSCoW priority, status workflow, user stories, and acceptance criteria — all queryable via MCP in real time.</div>
+        <div class="tile-tag">Draft → Verified</div>
+      </div>
+
+      <div class="feature-tile">
+        <div class="tile-icon">🐛</div>
+        <div class="tile-title">Issue Management</div>
+        <div class="tile-body">Issues linked directly to requirements. Your agent retrieves only the open issues for the current task — not the entire backlog.</div>
+        <div class="tile-tag">Req-linked issues</div>
+      </div>
+
+      <div class="feature-tile">
+        <div class="tile-icon">🔗</div>
+        <div class="tile-title">Traceability Matrix</div>
+        <div class="tile-body">Automated requirements-to-acceptance-criteria traceability with CSV export. Verify test coverage at any point in the sprint — without a separate test platform.</div>
+        <div class="tile-tag">REQ → AC → Test</div>
+      </div>
+
+      <div class="feature-tile">
+        <div class="tile-icon">🤖</div>
+        <div class="tile-title">AI Assistant</div>
+        <div class="tile-body">In-app requirement generation seeded from your project database — not conversation history. Structured requirements with acceptance criteria from natural language.</div>
+        <div class="tile-tag">Context-seeded</div>
+      </div>
+
+      <div class="feature-tile">
+        <div class="tile-icon">📊</div>
+        <div class="tile-title">Activity &amp; Audit Log</div>
+        <div class="tile-body">Real-time WebSocket event stream of all agent and human activity. Full audit trail for compliance and retrospectives without consuming agent context.</div>
+        <div class="tile-tag">Real-time stream</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- INLINE QUOTE 2 -->
+<div class="container">
+  <div class="quote-inline fade-up">
+    <div class="quote-inline-inner">
+      <div class="quote-bar"></div>
+      <div>
+        <p class="qi-text">"Context rot — as the number of tokens in the context window increases, the model's ability to accurately recall information from that context decreases."</p>
+        <div class="qi-source">Anthropic Engineering &nbsp;·&nbsp; Effective Context Engineering for AI Agents &nbsp;·&nbsp; Sep 29, 2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title fade-up">Precision context,<br><em>on demand</em></h2>
+
+    <div class="how-grid">
+      <div class="how-steps">
+
+        <div class="how-step fade-up">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-title">Define your specification</div>
+            <div class="step-body">Author a versioned Spec in DevCortex. Generate structured requirements with acceptance criteria using the AI assistant, seeded from your project database.</div>
+          </div>
+        </div>
+
+        <div class="how-step fade-up">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-title">Connect your AI agent via MCP</div>
+            <div class="step-body">Claude Code, OpenCode, or any MCP-compatible agent connects to the DevCortex server. The agent retrieves exactly the context it needs — one requirement, one task, one issue — on demand.</div>
+          </div>
+        </div>
+
+        <div class="how-step fade-up">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-title">Build with structured context</div>
+            <div class="step-body">The agent implements against clear acceptance criteria. No context amnesia, no repeated re-explanation, no fix-it loops. Status updates flow back into DevCortex automatically.</div>
+          </div>
+        </div>
+
+        <div class="how-step fade-up">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-title">Verify with the trace matrix</div>
+            <div class="step-body">The traceability matrix confirms every requirement has tested acceptance criteria. Export to CSV for audit, client acceptance, or sprint review.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MCP DIAGRAM -->
+      <div class="how-visual fade-up">
+        <div class="mcp-diagram">
+          <div class="mcp-title">MCP Context Session — live</div>
+          <div class="mcp-agent">Claude Code</div>
+          <div style="color:var(--ink-soft); font-size:11px; margin-bottom:16px; padding-left:2px;">
+            <span class="mcp-arrow">→</span>
+            <span class="mcp-server">DevCortex MCP :3001</span>
+            <span class="mcp-arrow">→</span>
+            <span class="mcp-db">PostgreSQL</span>
+          </div>
+
+          <div style="font-size:10px; color:var(--mist); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">Active requirements — Sprint 10</div>
+
+          <div class="mcp-req-item">
+            <span><span class="req-id">REQ-068</span> &nbsp;Full-width sidebar layout</span>
+            <span class="req-status status-done">Verified</span>
+          </div>
+          <div class="mcp-req-item">
+            <span><span class="req-id">REQ-069</span> &nbsp;CSS variable theming</span>
+            <span class="req-status status-done">Verified</span>
+          </div>
+          <div class="mcp-req-item">
+            <span><span class="req-id">REQ-070</span> &nbsp;Information density</span>
+            <span class="req-status status-prog">In Progress</span>
+          </div>
+          <div class="mcp-req-item">
+            <span><span class="req-id">REQ-071</span> &nbsp;Navigation improvements</span>
+            <span class="req-status status-prog">In Progress</span>
+          </div>
+          <div class="mcp-req-item">
+            <span><span class="req-id">REQ-072</span> &nbsp;Sprint 9 UAT bug fixes</span>
+            <span class="req-status status-open">Draft</span>
+          </div>
+
+          <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--rule); font-size:11px; color:var(--mist); display:flex; justify-content:space-between;">
+            <span>Context loaded</span>
+            <span style="color:var(--accent);">412 tokens</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="compare">
+  <div class="container">
+    <div class="section-label">Comparison</div>
+    <h2 class="section-title fade-up">How DevCortex<br>compares</h2>
+    <p class="section-body fade-up" style="margin-bottom:0;">
+      Purpose-built for the full development lifecycle — not just the IDE, not just the planning phase.
+    </p>
+
+    <div class="compare-wrap fade-up">
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th class="th-dc">DevCortex</th>
+            <th>AWS Kiro</th>
+            <th>Traycer</th>
+            <th>OpenSpec</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MCP server — just-in-time context retrieval</td>
+            <td class="td-dc"><span class="check">✔</span> Native</td>
+            <td><span class="part">◑</span> Client only</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Structured requirements database</td>
+            <td class="td-dc"><span class="check">✔</span> PostgreSQL</td>
+            <td><span class="part">◑</span> Markdown files</td>
+            <td><span class="part">◑</span> Platform store</td>
+            <td><span class="cross">✗</span> Files only</td>
+          </tr>
+          <tr>
+            <td>Traceability matrix (req → AC → test)</td>
+            <td class="td-dc"><span class="check">✔</span> Auto-generated</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Issue tracking linked to requirements</td>
+            <td class="td-dc"><span class="check">✔</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="part">◑</span> Tickets</td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Works with any AI agent (not IDE-locked)</td>
+            <td class="td-dc"><span class="check">✔</span> Any MCP agent</td>
+            <td><span class="cross">✗</span> Kiro IDE only</td>
+            <td><span class="part">◑</span> VS Code ext.</td>
+            <td><span class="check">✔</span> 20+ tools</td>
+          </tr>
+          <tr>
+            <td>Local LLM &amp; open-source model support</td>
+            <td class="td-dc"><span class="check">✔</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✔</span></td>
+          </tr>
+          <tr>
+            <td>Power user CLI</td>
+            <td class="td-dc"><span class="check">✔</span> dcx CLI</td>
+            <td><span class="part">◑</span> Limited</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✔</span> openspec CLI</td>
+          </tr>
+          <tr>
+            <td>Predictable pricing for intensive use</td>
+            <td class="td-dc"><span class="check">✔</span></td>
+            <td><span class="cross">✗</span> Credit burn</td>
+            <td><span class="part">◑</span> Capacity limits</td>
+            <td><span class="check">✔</span> Free/OSS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta" id="notify">
+  <div class="container">
+    <div class="cta-eyebrow">Coming Soon</div>
+    <h2 class="cta-title fade-up">
+      Stop vibe coding.<br>
+      Start <em>building</em>.
+    </h2>
+    <p class="cta-sub fade-up">
+      DevCortex is in active development. Join the early access list and be first to connect
+      your AI agents to structured, precision context.
+    </p>
+    <div class="fade-up">
+      <a href="mailto:hello@devcortexai.com" class="btn-primary" style="font-size:14px; padding:16px 36px;">
+        Request Early Access
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="cta-domain fade-up">
+      <span>DevCortexAI.com</span> &nbsp;·&nbsp; Coming Soon
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span>© 2026 DevCortex &nbsp;·&nbsp; All rights reserved</span>
+      <span>
+        Built on
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">Anthropic context engineering principles</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Stagger feature tiles
+  document.querySelectorAll('.feature-tile').forEach((tile, i) => {
+    tile.style.transitionDelay = `${i * 60}ms`;
+    tile.classList.add('fade-up');
+    observer.observe(tile);
+  });
+</script>
 
 </body>
 </html>
