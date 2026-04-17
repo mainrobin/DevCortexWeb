@@ -544,16 +544,15 @@
     margin: 0.5rem 0 1.25rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 
   ul.feature-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
     color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.6;
+    padding-left: 1.4rem;
+    position: relative;
   }
 
   ul.feature-list li::before {
@@ -561,8 +560,9 @@
     font-family: var(--mono);
     color: var(--accent);
     font-size: 0.8rem;
-    margin-top: 2px;
-    flex-shrink: 0;
+    position: absolute;
+    left: 0;
+    top: 2px;
   }
 
   /* ── SPRINT TABLE ── */
@@ -582,6 +582,27 @@
     .stat-bar { grid-template-columns: repeat(2, 1fr); }
     footer { flex-direction: column; align-items: flex-start; }
   }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+
 </style>
 </head>
 <body>
@@ -619,7 +640,7 @@
       <span class="stat-label">Production Sprints</span>
     </div>
     <div class="stat-item">
-      <span class="stat-value accent">~312</span>
+      <span class="stat-value accent">~300</span>
       <span class="stat-label">Tokens / Retrieval</span>
     </div>
     <div class="stat-item">
@@ -659,8 +680,8 @@
     <h3>What DevCortex Is</h3>
     <p>DevCortex is a SaaS platform comprising:</p>
     <ul class="feature-list">
-      <li>A <strong style="color:var(--text-primary)">structured requirements database</strong> — versioned specifications, MoSCoW-prioritised requirements, user stories, acceptance criteria, and issues stored in PostgreSQL</li>
-      <li>A <strong style="color:var(--text-primary)">precision MCP server</strong> — exposing <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_get_requirement</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_get_backlog</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_create_issue</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_update_status</code> and other tools to any MCP-compatible AI agent</li>
+      <li>A <strong style="color:var(--text-primary)">structured requirements database</strong> &mdash; versioned specifications, MoSCoW-prioritised requirements, user stories, acceptance criteria, and issues stored in PostgreSQL</li>
+      <li>A <strong style="color:var(--text-primary)">precision MCP server</strong> &mdash; exposing <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_get_requirement</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_get_backlog</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_create_issue</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_update_status</code> and other tools to any MCP-compatible AI agent</li>
       <li>A <strong style="color:var(--text-primary)">power-user CLI (dcx)</strong> — for project management, CSV imports, and status reporting outside the web UI</li>
       <li>A <strong style="color:var(--text-primary)">traceability matrix</strong> — auto-generated, confirming every requirement maps to verified acceptance criteria</li>
       <li>An <strong style="color:var(--text-primary)">AI assistant</strong> — for in-app requirement generation seeded from the project database, not conversation history</li>
@@ -757,13 +778,13 @@
         <div><span class="t-dim">→ open_issues:</span> <span class="t-white">0</span></div>
         <div>&nbsp;</div>
         <div class="t-comment"># Precision context — not full chat history</div>
-        <div><span class="t-dim">tokens used:</span> <span class="t-green">312</span> <span class="t-dim">/ 200k</span></div>
+        <div><span class="t-dim">tokens used:</span> <span class="t-green">300</span> <span class="t-dim">/ 200k</span></div>
         <div><span class="t-dim">signal ratio:</span> <span class="t-green">high</span></div>
       </div>
     </div>
 
     <div class="callout" data-label="Context Efficiency">
-      A typical requirement retrieval consumed ~312 tokens. Delivering the same information via repeated chat context would have consumed 10–50× more tokens and degraded agent accuracy with each passing message.
+      A typical requirement retrieval consumed ~300 tokens. Delivering the same information via repeated chat context would have consumed 10–50× more tokens and degraded agent accuracy with each passing message.
     </div>
 
     <h3><span class="step-num">03</span> Autonomous Issue Management</h3>
@@ -814,7 +835,7 @@
       <div class="finding-card">
         <span class="finding-icon">⚡</span>
         <div class="finding-title">Context Efficiency</div>
-        <div class="finding-detail">AI agents retrieved requirements on-demand at ~312 tokens per call. No context rot observed across 4 sprints. No requirement re-explanation needed between sessions.</div>
+        <div class="finding-detail">AI agents retrieved requirements on-demand at ~300 tokens per call. No context rot observed across 4 sprints. No requirement re-explanation needed between sessions.</div>
       </div>
       <div class="finding-card">
         <span class="finding-icon">✅</span>
@@ -863,6 +884,12 @@
     <p style="margin-top:1.5rem;font-size:0.875rem;color:var(--text-muted);font-family:var(--mono)">
       For investor enquiries and early access: <a href="https://www.devcortexai.com/" style="color:var(--accent);text-decoration:none">devcortexai.com</a>
     </p>
+    <div class="fade-up" style="text-align: center; margin-top: 1rem;">
+      <a href="mailto:hello@devcortexai.com" class="btn-primary" style="font-size:14px; padding:16px 36px;">
+        Request Early Access
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
