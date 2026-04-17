@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study — DevCortex × For The Record | 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg-card: #0f1218;
+    --bg-elevated: #141820;
+    --border: #1e2430;
+    --border-subtle: #161c26;
+    --text-primary: #e8edf5;
+    --text-secondary: #7a8899;
+    --text-muted: #4a5568;
+    --accent: #3b82f6;
+    --accent-dim: rgba(59,130,246,0.12);
+    --accent-glow: rgba(59,130,246,0.25);
+    --green: #10b981;
+    --green-dim: rgba(16,185,129,0.12);
+    --amber: #f59e0b;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-logo .dc-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-meta {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 2rem 64px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse at center top, rgba(59,130,246,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(59,130,246,0.25);
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+  }
+
+  .eyebrow::before {
+    content: '◆';
+    font-size: 0.5rem;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 680px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── STAT BAR ── */
+  .stat-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+
+  .stat-item {
+    background: var(--bg-card);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value.green { color: var(--green); }
+  .stat-value.accent { color: var(--accent); }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section {
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 80px;
+  }
+
+  h2 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  h2 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  h3 .step-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 3px;
+    padding: 1px 6px;
+    background: var(--accent-dim);
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    border-left: 3px solid var(--accent);
+    background: var(--bg-elevated);
+    border-radius: 0 6px 6px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.75rem 0;
+  }
+
+  .quote-block blockquote {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .quote-attribution {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+
+  .quote-attribution a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    position: relative;
+  }
+
+  .callout::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.68rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.green { border-color: rgba(16,185,129,0.25); }
+  .callout.green::before { color: var(--green); }
+
+  /* ── TERMINAL BLOCK ── */
+  .terminal {
+    background: #080b10;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .terminal-bar {
+    background: var(--bg-elevated);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .terminal-dots { display: flex; gap: 5px; }
+  .terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .terminal-dot:nth-child(1) { background: #ff5f57; }
+  .terminal-dot:nth-child(2) { background: #febc2e; }
+  .terminal-dot:nth-child(3) { background: #28c840; }
+
+  .terminal-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: 1.25rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
+
+  .t-dim { color: var(--text-muted); }
+  .t-green { color: var(--green); }
+  .t-blue { color: #60a5fa; }
+  .t-amber { color: var(--amber); }
+  .t-white { color: var(--text-primary); }
+  .t-comment { color: #3d5066; }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .data-table th {
+    background: var(--bg-elevated);
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.75rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+
+  .data-table tr:hover td { background: var(--bg-elevated); }
+
+  .data-table td:first-child {
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── FINDINGS GRID ── */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .finding-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .finding-card:hover { background: var(--bg-elevated); }
+
+  .finding-icon {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .finding-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .finding-detail {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+  .badge-blue { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(59,130,246,0.2); }
+
+  /* ── CONCLUSION ── */
+  .conclusion-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conclusion-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .conclusion-card p {
+    font-size: 0.95rem;
+    line-height: 1.85;
+  }
+
+  .conclusion-card .tagline {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    max-width: 900px;
+    margin: 3rem auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer .footer-brand {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-family: var(--mono);
+  }
+
+  footer a:hover { text-decoration: underline; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  /* ── PILL LIST ── */
+  ul.pill-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0 1.25rem;
+  }
+
+  ul.pill-list li {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  /* ── INLINE LISTS ── */
+  ul.feature-list {
+    list-style: none;
+    margin: 0.5rem 0 1.25rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  ul.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  ul.feature-list li::before {
+    content: '→';
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 0.8rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── SPRINT TABLE ── */
+  .sprint-row td:last-child { font-family: var(--mono); font-size: 0.8rem; }
+
+  /* ── ANIMATE IN ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero { animation: fadeUp 0.5s ease both; }
+  .stat-bar { animation: fadeUp 0.5s 0.15s ease both; }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 1.6rem; }
+    .stat-bar { grid-template-columns: repeat(2, 1fr); }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://www.devcortexai.com/">
+    <span class="dc-badge">dc</span>DevCortex
+  </a>
+  <span class="nav-meta">Case Study · For The Record Beta Programme · 2026</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="eyebrow">Case Study</div>
+    <h1>DevCortex as the <em>Structured Intelligence Layer</em><br>for AI-Driven Development</h1>
+    <p class="hero-sub">How DevCortex powered the end-to-end development of <strong style="color:var(--text-primary)">For The Record</strong> across 4 production sprints — with zero platform blockers, full traceability, and autonomous agentic issue management.</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="container">
+  <div class="stat-bar">
+    <div class="stat-item">
+      <span class="stat-value green">0</span>
+      <span class="stat-label">Blocking Issues</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value accent">100</span>
+      <span class="stat-label">Requirements</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">4</span>
+      <span class="stat-label">Production Sprints</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value accent">~312</span>
+      <span class="stat-label">Tokens / Retrieval</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value green">100%</span>
+      <span class="stat-label">Acceptance Criteria Met</span>
+    </div>
+  </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="container">
+  <div class="section">
+    <div class="section-label">Executive Summary</div>
+    <h2>Purpose-built context for <em>agentic engineering</em></h2>
+    <p>DevCortex is a purpose-built structured intelligence layer for agentic software engineering that sits between human specification and AI-agent execution. Its core innovation is a precision MCP (Model Context Protocol) server that delivers just-in-time, high-signal context to AI coding agents — delivering product specification and requirements on demand, then tracking verification results and maintaining full traceability of produced code back to requirements.</p>
+    <p>It also ensures more efficient token and context usage, eliminating the context rot that plagues vibe-coded, chat-session-driven development.</p>
+    <p>This case study documents the use of DevCortex to build <strong style="color:var(--text-primary)">For The Record</strong>, a full-stack career journal SaaS application, from initial specification through four production sprints. This beta test confirmed DevCortex's core thesis: that structured, on-demand context delivery produces deterministic, traceable, production-quality outcomes from agentic AI coding tools.</p>
+
+    <div class="quote-block">
+      <blockquote>"The smallest possible set of high-signal tokens that maximize the likelihood of some desired outcome."</blockquote>
+      <div class="quote-attribution">— Anthropic Applied AI Team · <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank">Effective Context Engineering for AI Agents, September 29, 2025</a></div>
+    </div>
+
+    <p>DevCortex operationalises this principle as a product. Every requirement is stored as a structured, queryable record. Claude Code fetches exactly what it needs — one requirement, its acceptance criteria, and any open issues — at the moment it needs it. Nothing more. It then updates DevCortex with build status and test result.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- BACKGROUND -->
+  <div class="section">
+    <div class="section-label">Background</div>
+    <h2>The Problem DevCortex <em>Solves</em></h2>
+    <p>Agentic AI coding tools like Claude Code, Cursor, Devin, and others are transforming software development. But they share a fundamental constraint: context windows are finite, and as sessions grow, AI performance degrades.</p>
+    <p>Anthropic's own engineering team named this phenomenon <em style="color:var(--text-primary)">context rot</em>: as the number of tokens in the context window increases, the model's ability to accurately recall information from that context decreases. The result, in practice, is the fix-it loop — the agent fixes one thing, breaks another, and the developer spends as much time re-explaining context as they save from automation.</p>
+    <p>Existing tools address parts of this problem. AWS Kiro adds spec-to-code generation but is locked to its own IDE. Traycer adds AI ticket creation but lacks structured requirements. None provide a complete, agent-agnostic, spec-driven control plane with automatic traceability.</p>
+
+    <h3>What DevCortex Is</h3>
+    <p>DevCortex is a SaaS platform comprising:</p>
+    <ul class="feature-list">
+      <li>A <strong style="color:var(--text-primary)">structured requirements database</strong> — versioned specifications, MoSCoW-prioritised requirements, user stories, acceptance criteria, and issues stored in PostgreSQL</li>
+      <li>A <strong style="color:var(--text-primary)">precision MCP server</strong> — exposing <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_get_requirement</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_get_backlog</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_create_issue</code>, <code style="font-family:var(--mono);font-size:0.82em;color:var(--accent)">dc_update_status</code> and other tools to any MCP-compatible AI agent</li>
+      <li>A <strong style="color:var(--text-primary)">power-user CLI (dcx)</strong> — for project management, CSV imports, and status reporting outside the web UI</li>
+      <li>A <strong style="color:var(--text-primary)">traceability matrix</strong> — auto-generated, confirming every requirement maps to verified acceptance criteria</li>
+      <li>An <strong style="color:var(--text-primary)">AI assistant</strong> — for in-app requirement generation seeded from the project database, not conversation history</li>
+    </ul>
+
+    <p>The platform applies an <em style="color:var(--text-primary)">agentic V-methodology</em>: requirements flow left-to-right through specification, implementation, and issue tracking, then fold back through UAT, traceability verification, and tagging — with DevCortex as the connective tissue throughout.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- THE PROJECT -->
+  <div class="section">
+    <div class="section-label">The Project</div>
+    <h2>For The Record — <em>Application Overview</em></h2>
+    <p>For The Record is a career journal SaaS application built for professionals who want to capture their work narrative, track goals, and build an evidence base for performance reviews.</p>
+    <ul class="pill-list">
+      <li>Next.js 14</li>
+      <li>Supabase (PostgreSQL + Auth + Storage)</li>
+      <li>Tailwind CSS</li>
+      <li>Vercel</li>
+    </ul>
+
+    <h3>Sprint Scope</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody class="sprint-row">
+        <tr>
+          <td>Stack</td>
+          <td>Next.js 14 + Supabase + Vercel + Tailwind CSS</td>
+        </tr>
+        <tr>
+          <td>Requirements</td>
+          <td>100 requirements, each containing a User Story with 3–8 Acceptance Criteria</td>
+        </tr>
+        <tr>
+          <td>Sprints</td>
+          <td>4 full production sprints under DevCortex agentic control — base app foundation, then progressively adding functional capability with UAT at completion of each sprint</td>
+        </tr>
+        <tr>
+          <td>Blocking Issues</td>
+          <td><span class="badge badge-green">0 blocking issues</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- HOW IT WAS USED -->
+  <div class="section">
+    <div class="section-label">Methodology</div>
+    <h2>How DevCortex <em>Was Used</em></h2>
+
+    <h3><span class="step-num">01</span> Specification and Requirements Authoring</h3>
+    <p>Before each sprint, a versioned specification document was authored in DevCortex. Requirements were structured with:</p>
+    <ul class="feature-list">
+      <li>MoSCoW priority (MUST / SHOULD / COULD / WON'T)</li>
+      <li>User story in standard format (As a [role], I want [feature] so that [benefit])</li>
+      <li>Acceptance criteria — 3 to 8 measurable conditions per requirement</li>
+      <li>Sprint assignment and status (Draft → In Progress → Verified)</li>
+    </ul>
+    <p>Requirements can be imported via CSV using the dcx CLI, or entered in the Web UI manually or with the built-in AI assistant. 100 requirements across four sprints were managed with this process.</p>
+
+    <h3><span class="step-num">02</span> Agentic Build Sessions via MCP</h3>
+    <p>Each sprint was implemented using Claude Code, connected to the DevCortex MCP server. The workflow followed a strict one-requirement-at-a-time protocol:</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dots">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+        </div>
+        <span class="terminal-title">dcx — MCP context session</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-comment"># Prompt 0: establish session context</div>
+        <div><span class="t-dim">tool:</span> <span class="t-blue">dc_health</span><span class="t-dim">()</span></div>
+        <div><span class="t-green">✔ MCP connection verified</span></div>
+        <div>&nbsp;</div>
+        <div><span class="t-dim">tool:</span> <span class="t-blue">dc_get_backlog</span><span class="t-dim">(sprint="sprint-3")</span></div>
+        <div><span class="t-green">✔ 25 requirements confirmed</span></div>
+        <div>&nbsp;</div>
+        <div class="t-comment"># Agent fetches only what it needs</div>
+        <div><span class="t-dim">tool:</span> <span class="t-blue">dc_get_requirement</span><span class="t-dim">("REQ-042")</span></div>
+        <div><span class="t-dim">→ title:</span> <span class="t-white">"NextAuth.js HTTP-Only Cookies"</span></div>
+        <div><span class="t-dim">→ status:</span> <span class="t-amber">IN_PROGRESS</span></div>
+        <div><span class="t-dim">→ acceptance_criteria:</span> <span class="t-white">[5 items]</span></div>
+        <div><span class="t-dim">→ open_issues:</span> <span class="t-white">0</span></div>
+        <div>&nbsp;</div>
+        <div class="t-comment"># Precision context — not full chat history</div>
+        <div><span class="t-dim">tokens used:</span> <span class="t-green">312</span> <span class="t-dim">/ 200k</span></div>
+        <div><span class="t-dim">signal ratio:</span> <span class="t-green">high</span></div>
+      </div>
+    </div>
+
+    <div class="callout" data-label="Context Efficiency">
+      A typical requirement retrieval consumed ~312 tokens. Delivering the same information via repeated chat context would have consumed 10–50× more tokens and degraded agent accuracy with each passing message.
+    </div>
+
+    <h3><span class="step-num">03</span> Autonomous Issue Management</h3>
+    <p>One of the most significant observations from the beta occurred during Sprint 3 development. When Claude Code encountered a missing database column in the Supabase schema during implementation, it did not simply fail or ask for help.</p>
+    <p>Instead, Claude autonomously called the DevCortex MCP tool <code style="font-family:var(--mono);font-size:0.85em;color:var(--accent)">dc_create_issue</code>, creating a structured issue record linked to the specific requirement where the schema gap was identified. The issue included:</p>
+    <ul class="feature-list">
+      <li>The requirement ID it was linked to</li>
+      <li>A description of the missing column and the error encountered</li>
+      <li>The suggested resolution (ALTER TABLE SQL statement)</li>
+    </ul>
+
+    <div class="callout green" data-label="Key Observation">
+      This behaviour — autonomous issue creation linked to a requirement, without human prompting — confirmed a core DevCortex design hypothesis: when AI agents have access to structured issue management tools via MCP, they use them appropriately as part of the development workflow. The issue was resolved in the same session and the requirement was marked VERIFIED.
+    </div>
+
+    <div class="quote-block">
+      <blockquote>This is what agentic V-methodology looks like in practice. The agent identified a defect, logged it against the requirement, resolved it, and continued — all within the structured DevCortex context.</blockquote>
+    </div>
+
+    <h3><span class="step-num">04</span> UAT Test Plans from Specifications</h3>
+    <p>Following each sprint's implementation, structured UAT test plans were generated directly from the DevCortex requirement database. Each test plan included:</p>
+    <ul class="feature-list">
+      <li>Test cases derived directly from acceptance criteria — one TC per AC, or grouped by feature area</li>
+      <li>Pre-conditions, steps to reproduce, and expected results for each test case</li>
+      <li>Priority classification (MUST / SHOULD) aligned to MoSCoW requirement priority</li>
+      <li>Status tracking (Not Run / Pass / Fail) and defect log sheets</li>
+    </ul>
+
+    <h3><span class="step-num">05</span> Traceability Matrix</h3>
+    <p>The DevCortex traceability matrix provided a continuous, auto-generated view of requirement coverage. At any point in the sprint, the matrix confirmed which requirements had:</p>
+    <ul class="feature-list">
+      <li>All acceptance criteria defined</li>
+      <li>Implementation status (Draft / In Progress / Verified)</li>
+      <li>Open issues linked</li>
+      <li>UAT test cases mapped</li>
+    </ul>
+    <p>This replaced the manual effort of maintaining a traceability spreadsheet — a task that typically consumes significant QA time on conventional projects — with an automated, always-current view derived from the requirements database.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- OUTCOMES -->
+  <div class="section">
+    <div class="section-label">Outcomes &amp; Results</div>
+    <h2>Key <em>Findings</em></h2>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <span class="finding-icon">⚡</span>
+        <div class="finding-title">Context Efficiency</div>
+        <div class="finding-detail">AI agents retrieved requirements on-demand at ~312 tokens per call. No context rot observed across 4 sprints. No requirement re-explanation needed between sessions.</div>
+      </div>
+      <div class="finding-card">
+        <span class="finding-icon">✅</span>
+        <div class="finding-title">Deterministic Outcomes</div>
+        <div class="finding-detail">Every sprint delivered production-ready code with 100% acceptance criteria met on first pass. No architectural rework required.</div>
+      </div>
+      <div class="finding-card">
+        <span class="finding-icon">🤖</span>
+        <div class="finding-title">Autonomous Issue Mgmt</div>
+        <div class="finding-detail">Claude used <code style="font-family:var(--mono);font-size:0.85em">dc_create_issue</code> autonomously when it identified a schema defect — without prompting. Issue was linked, resolved, and verified in the same session.</div>
+      </div>
+      <div class="finding-card">
+        <span class="finding-icon">🛡️</span>
+        <div class="finding-title">Zero Platform Blockers</div>
+        <div class="finding-detail">DevCortex introduced no blocking issues across the entire For The Record beta. MCP connectivity was stable. Requirement retrieval was reliable throughout.</div>
+      </div>
+      <div class="finding-card">
+        <span class="finding-icon">🔗</span>
+        <div class="finding-title">Traceability Without Effort</div>
+        <div class="finding-detail">A complete REQ → AC → Test traceability chain was maintained across all 100 requirements. No manual matrix maintenance was required.</div>
+      </div>
+      <div class="finding-card">
+        <span class="finding-icon">🧪</span>
+        <div class="finding-title">UAT Quality</div>
+        <div class="finding-detail">Structured test plans generated from requirements produced higher-quality test cases than ad-hoc testing. Defect detection was systematic and requirement-linked.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CONCLUSION -->
+  <div class="section">
+    <div class="section-label">Conclusion</div>
+    <h2>The Missing <em>Intelligence Layer</em></h2>
+
+    <div class="conclusion-card">
+      <p>The For The Record beta test programme confirmed that DevCortex delivers on its core promise: structured, traceable, production-quality AI-driven development with no context rot.</p>
+      <p>In a market where every developer team is adopting AI coding assistants but struggling with reliability, consistency, and governance, DevCortex provides the missing layer. It is not an AI coding tool — it is the intelligence infrastructure that makes AI coding tools work predictably at scale.</p>
+      <p>There is no other product on the market today that provides a full agentic V-methodology MCP server platform with structured requirements, traceability matrix, and requirement-linked issue management — and works with any MCP-enabled coding agent. DevCortex occupies a unique position in the emerging agentic software engineering landscape.</p>
+      <div class="tagline">
+        <em>"DevCortex is a structured intelligence layer for AI-driven development — proven in real end-to-end application development, not by benchmarks."</em>
+      </div>
+    </div>
+
+    <p style="margin-top:1.5rem;font-size:0.875rem;color:var(--text-muted);font-family:var(--mono)">
+      For investor enquiries and early access: <a href="https://www.devcortexai.com/" style="color:var(--accent);text-decoration:none">devcortexai.com</a>
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">© 2026 DevCortex · All rights reserved</span>
+  <a href="https://www.devcortexai.com/">devcortexai.com</a>
+</footer>
+
+</body>
+</html>
